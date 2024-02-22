@@ -1,5 +1,7 @@
 
 package hotelroomreservation;
+import java.util.Scanner;
+
 class Room
 {
     int roomNumber;
@@ -15,9 +17,7 @@ class Room
         this.right=null;
        
     }
-   
-   
-   
+      
 }
 class Hotelreservation
 {  
@@ -66,9 +66,7 @@ class Hotelreservation
              
                   node.roomNumber=getsuccessor(node.right);
                   node.right=deleteRoom(node.right, node.roomNumber);
-               
-             
-             
+                    
           }
           return node;
       }
@@ -173,8 +171,6 @@ class Hotelreservation
      
 }
 
-
-
 public class HotelRoomReservation {
 
     
@@ -190,19 +186,78 @@ public class HotelRoomReservation {
         System.out.println("Rooms in the hotel:");
         hotelreservation.display(root);
         System.out.println();
-      //  hotelreservation.postorder(root);
+        //  hotelreservation.postorder(root);
        // hotelreservation.preorder(root);
          
        // root=hotelreservation.deleteRoom(root, 101);
        // System.out.println("Rooms in the hotel:");
        // hotelreservation.display(root);
-       hotelreservation.ReservationRoom(root, 101,5);
-       hotelreservation.ReservationRoom(root, 103,10);
-       hotelreservation.ReservationRoom(root, 105,11);
-       
-       hotelreservation.checkAvailability(root, 101);
-       hotelreservation.checkAvailability(root, 102);
-       hotelreservation.checkAvailability(root, 100);
+
+
+        Scanner scanner = new Scanner(System.in);
+        
+         while(true)
+         {
+            System.out.println("Please enter the relevant number to get the service you need");
+            System.out.println("\nOptions:");
+            System.out.println("1. Add a room");
+            System.out.println("2. Delete a room");
+            System.out.println("3. Reserve a room");
+            System.out.println("4. Total income");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    {
+                        System.out.println("Enter Room to be add");
+                        int room=scanner.nextInt();
+                        root=hotelreservation.addroom(root, room);
+                        break;
+                    }
+                case 2:
+                    {
+                        System.out.println("Enter Room to be deleted");
+                        int room=scanner.nextInt();
+                        root=hotelreservation.deleteRoom(root, room);
+                        break;
+                    }
+                case 3:
+                    {
+                        System.out.println("Enter the Room number to be reserved ");
+                        int room=scanner.nextInt();
+                        if(room>root.roomNumber)
+                        {
+                            System.out.println("VIP Room");
+                            System.out.println("Cost for VIP room LKR 10000 per day");
+                            System.out.println("Enter number days ");
+                            int days=scanner.nextInt();
+                            hotelreservation.ReservationRoom(root, room, days);
+                        }
+                        else
+                        {
+                            System.out.println("Standard Room");
+                            System.out.println("Cost for Standard room LKR 7500 per day");
+                            System.out.println("Enter number days ");
+                            int days=scanner.nextInt();
+                            hotelreservation.ReservationRoom(root, room, days);
+                           
+                        }       break;
+                    }
+                case 4:
+                    System.out.println("Maximum price on a room  on that day");                   
+                    break;
+                    
+                case 0:
+                    System.out.print("Exit programm");
+                    break;
+                    
+                default:
+                    break;
+            }
+           
+         }
     }
     
 }
