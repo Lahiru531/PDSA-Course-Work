@@ -2,6 +2,7 @@
 package hotelroomreservation;
 import java.util.Scanner;
 
+
 class Room
 {
     int roomNumber;
@@ -94,29 +95,24 @@ class Hotelreservation
         }
              
       }
-      public void ReservationRoom(Room node,int roomnumber,int days)
+      public int ReservationRoom(Room node,int roomnumber,int days)
       {
           Room roomtoreserve=findroom(node, roomnumber);
           if(roomtoreserve != null && roomtoreserve.Availability)
           {   
               roomtoreserve.Availability=false;
-              int Totalbill;
-              if(roomnumber>node.roomNumber)
-              {
-                  Totalbill=10000*days;
-                 
-                 
-              }
-              else{
-                  Totalbill=7500*days;
-                   
-              }
+              int price = (roomnumber >= node.roomNumber) ? 10000 : 7500;
+              int total = price * days;
+              MaxHeap m1 = new MaxHeap();
+              m1.root = m1.insertNode(m1.root, total);
               System.out.println(" Room " +roomnumber+ " has been reserved");
-              System.out.println(" Total cost for "+roomnumber+ " is LKR " +Totalbill);
+              System.out.println(" Total cost for "+roomnumber+ " is LKR " +total);
+              return total;
           }
           else
           {
                System.out.println("Room " +roomnumber+ " already Reserved.");
+              return 0;
           }
       }
       public boolean checkAvailability(Room node,int roomnumber)
@@ -176,6 +172,7 @@ public class HotelRoomReservation {
     
     public static void main(String[] args) {
          Hotelreservation hotelreservation =new Hotelreservation();
+         MaxHeap m1 = new MaxHeap();
         
         Room root=null;
         root = hotelreservation.addroom(root, 101);
@@ -233,7 +230,7 @@ public class HotelRoomReservation {
                             System.out.println("Cost for VIP room LKR 10000 per day");
                             System.out.println("Enter number days ");
                             int days=scanner.nextInt();
-                            hotelreservation.ReservationRoom(root, room, days);
+                            m1.insert(hotelreservation.ReservationRoom(root, room, days));
                         }
                         else
                         {
@@ -241,12 +238,12 @@ public class HotelRoomReservation {
                             System.out.println("Cost for Standard room LKR 7500 per day");
                             System.out.println("Enter number days ");
                             int days=scanner.nextInt();
-                            hotelreservation.ReservationRoom(root, room, days);
+                             m1.insert(hotelreservation.ReservationRoom(root, room, days));
                            
                         }       break;
                     }
                 case 4:
-                    System.out.println("Maximum price on a room  on that day");                   
+                    m1.print();                   
                     break;
                     
                 case 0:
@@ -260,4 +257,65 @@ public class HotelRoomReservation {
          }
     }
     
+}
+class MaxHeapNode {
+    int total;
+    MaxHeapNode left;
+    MaxHeapNode right;
+
+    public MaxHeapNode(int total) {
+        this.total = total;
+        left = null;
+        right = null;
+    }
+}
+class MaxHeap {
+    MaxHeapNode root;
+    int sum=0;
+
+    public MaxHeap() {
+        root = null;
+    }
+
+    public void insert(int total) {
+        root = insertNode(root, total);
+    }
+
+    public MaxHeapNode insertNode(MaxHeapNode root, int total) {
+        if (root == null) {
+            root = new MaxHeapNode(total);
+            return root;
+        }
+        if (total > root.total) {
+            int temp = root.total;
+            root.total = total;
+            total = temp;
+        }
+        if (root.left == null)
+            root.left = insertNode(root.left, total);
+        else if (root.right == null)
+            root.right = insertNode(root.right, total);
+        else {
+            if (root.left.total < root.right.total)
+                root.left = insertNode(root.left, total);
+            else
+                root.right = insertNode(root.right, total);
+        }
+        return root;
+    }
+
+    public void print() {
+        printHeap(root);
+        System.out.println("Highest income is :"+root.total);
+        System.out.println("Total income recieved by the day is :"+sum);
+    }
+
+    public void printHeap(MaxHeapNode root) {
+        if (root == null)
+            return;
+        printHeap(root.left);
+        printHeap(root.right);
+        sum=sum+root.total;
+        
+    }
 }
