@@ -175,11 +175,13 @@ public class HotelRoomReservation {
          MaxHeap m1 = new MaxHeap();
         
         Room root=null;
+        root = hotelreservation.addroom(root, 100);
         root = hotelreservation.addroom(root, 101);
         root = hotelreservation.addroom(root, 102);
-        root = hotelreservation.addroom(root, 105);
         root = hotelreservation.addroom(root, 103);
-        root = hotelreservation.addroom(root, 100);
+        root = hotelreservation.addroom(root, 104);
+        root = hotelreservation.addroom(root, 99);
+        root = hotelreservation.addroom(root, 98);
         System.out.println("Rooms in the hotel:");
         hotelreservation.display(root);
         System.out.println();
@@ -224,7 +226,7 @@ public class HotelRoomReservation {
                     {
                         System.out.println("Enter the Room number to be reserved ");
                         int room=scanner.nextInt();
-                        if(room>root.roomNumber)
+                        if(room>=root.roomNumber)
                         {
                             System.out.println("VIP Room");
                             System.out.println("Cost for VIP room LKR 10000 per day");
