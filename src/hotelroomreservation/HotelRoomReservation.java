@@ -226,6 +226,8 @@ public class HotelRoomReservation {
                     {
                         System.out.println("Enter the Room number to be reserved ");
                         int room=scanner.nextInt();
+                        if(hotelreservation. checkAvailabilit(room)==true)
+                        {  
                         if(room>=root.roomNumber)
                         {
                             System.out.println("VIP Room");
@@ -242,7 +244,8 @@ public class HotelRoomReservation {
                             int days=scanner.nextInt();
                              m1.insert(hotelreservation.ReservationRoom(root, room, days));
                            
-                        }       break;
+                        }  
+                        }break;
                     }
                 case 4:
                     m1.print();                   
